@@ -136,7 +136,7 @@ void ImportRaw(wxWindow *parent, const wxString &fileName,
       }
 
       numChannels = std::max(1u, numChannels);
-      ImportRawDialog dlog(parent, encoding, numChannels, (int)offset, n);
+      ImportRawDialog dlog(parent, encoding, numChannels, (int)offset, rate);
       dlog.ShowModal();
       if (!dlog.GetReturnCode())
          return;
