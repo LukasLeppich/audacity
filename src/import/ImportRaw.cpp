@@ -104,7 +104,7 @@ void ImportRaw(wxWindow *parent, const wxString &fileName,
    int encoding = 0; // Guess Format
    sampleFormat format;
    sf_count_t offset = 0;
-   double rate = 44100.0;
+   double rate = 192000.0;
    double percent = 100.0;
    TrackHolders channels;
    auto updateResult = ProgressResult::Success;
@@ -136,7 +136,7 @@ void ImportRaw(wxWindow *parent, const wxString &fileName,
       }
 
       numChannels = std::max(1u, numChannels);
-      ImportRawDialog dlog(parent, encoding, numChannels, (int)offset, rate);
+      ImportRawDialog dlog(parent, encoding, numChannels, (int)offset, n);
       dlog.ShowModal();
       if (!dlog.GetReturnCode())
          return;
@@ -353,7 +353,7 @@ ImportRawDialog::ImportRawDialog(wxWindow * parent,
       int subtype = sf_encoding_index_to_subtype(i);
       info.format = SF_FORMAT_RAW + SF_ENDIAN_LITTLE + subtype;
       info.channels = 1;
-      info.samplerate = 44100;
+      info.samplerate = 192000;
 
       if (sf_format_check(&info)) {
          mEncodingSubtype[mNumEncodings] = subtype;
@@ -490,8 +490,8 @@ void ImportRawDialog::OnOK(wxCommandEvent & WXUNUSED(event))
       mPercent = 100.0;
    if (mRate < 100.0)
       mRate = 100.0;
-   if (mRate > 100000.0)
-      mRate = 100000.0;
+   if (mRate > 192000.0)
+      mRate = 192000.0;
 
    EndModal(true);
 }
@@ -516,7 +516,7 @@ void ImportRawDialog::OnChoice(wxCommandEvent & WXUNUSED(event))
 
    info.format = mEncoding | SF_FORMAT_RAW;
    info.channels = mChannelChoice->GetSelection() + 1;
-   info.samplerate = 44100;
+   info.samplerate = 192000;
 
    //mOK = (wxButton *)wxWindow::FindWindowById(wxID_OK, this);
    if (sf_format_check(&info)) {
